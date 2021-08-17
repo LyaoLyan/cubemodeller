@@ -58,6 +58,17 @@
         <v-local-test></v-local-test>
       </div>
     </div>
+    <div class="modal-footer">
+      <div class="footer__add">
+        <button class="add-btn"><img src="../assets/add.svg" alt=""></button>
+      </div>
+      <div class="footer__metrica">
+        <input class="footer__metrica-input" type="text" placeholder="Metrica" />
+      </div>
+      <div class="footer__formula">
+        <input class="footer__formula-input" type="text" placeholder="Formula" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -79,8 +90,8 @@ export default {
 <style scoped lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
 .modal {
-  width: 1200px;
-  height: 620px;
+  width: 61%;
+  height: 67%;
   background-color: #f9f9f9;
   flex-direction: column;
   margin-left: auto;
@@ -94,8 +105,6 @@ export default {
   &__panel {
     display: flex;
     margin: 10px 30px;
-    // width: 100%;
-    justify-content: space-between;
     &-title {
       width: 330px;
       display: flex;
@@ -106,7 +115,7 @@ export default {
       }
     }
     &-test {
-      width: 33%;
+      width: 46%;
       display: flex;
       align-items: center;
       &-edit {
@@ -116,7 +125,7 @@ export default {
     }
     &-buttons {
       display: flex;
-      width: 25%;
+      width: 36%;
       justify-content: space-between;
       align-items: center;
       &-chat {
@@ -151,24 +160,99 @@ export default {
       }
     }
   }
+  &-footer {
+    margin-top: 10px;
+    border-radius: 0px 0px 13px 13px;
+    flex-basis: 6%;
+    background: #eef1fa;
+    display: flex;
+    border-top: 1.5px solid #dfe0eb;
+  }
+}
+.footer {
+  &__add {
+    flex-basis: 4%;
+    display: flex;
+justify-content: center;
+  }
+  &__metrica {
+    flex-basis: 50%;
+    border-right: 1.5px solid #dfe0eb;
+    border-left: 1.5px solid #dfe0eb;
+    &-input {
+      width: 100%;
+      height: 100%;
+      background: none;
+      border: none;
+      padding: 0px;
+      margin: 0px;
+      padding-left: 10px;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 2px;
+
+
+      &:focus {
+        outline: none;
+// border: #33A3FA05 1px solid;
+      }
+      &::placeholder {
+        color: #11263C;
+        opacity: 0.2;
+        // font-family: 'Inter', sans-serif;
+      }
+    }
+  }
+  &__formula {
+    flex-basis: 45%;
+    &-input {
+      width: 100%;
+      height: 100%;
+      background: none;
+      border: none;
+      padding: 0px;
+      margin: 0px;
+      padding-left: 10px;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 2px;
+
+
+      &::placeholder {
+        color: #11263C;
+        opacity: 0.2;
+        // font-family: 'Inter', sans-serif;
+      }
+      &:focus {
+        outline: none;
+
+border-radius: 0px 0px 13px 0px;
+      }
+    }
+  }
 }
 .modal__content {
   display: flex;
-  
+  height: 85%;
 }
 .content {
+  display: flex;
   &__select {
     display: flex;
+    flex-basis: 20%;
+    height: 100%;
     flex-direction: column;
-    justify-content: space-between;
     &-widget {
       margin-bottom: 10px;
+      flex-basis: 40%;
+    }
+    &-metrics {
+      flex-basis: 60%;
     }
   }
   &__localtest {
-    margin-left:10px;
-    width: 100%;
-    height: 100%;
+    margin-left: 30px;
+    margin-right: 16px;
+    flex-grow: 1;
   }
 }
+
 </style>

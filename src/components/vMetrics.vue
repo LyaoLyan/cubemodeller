@@ -4,11 +4,14 @@
       <div class="header-row">
         <div class="header-row-title">Metrics</div>
         <div class="header-row-alert">
-          <button class="alert-btn">
+          <button>
             <img src="../assets/alert-circle.svg" alt="" />
           </button>
         </div>
         <div class="header-row-search">
+          <span class="search-icon"
+            ><img src="../assets/search.svg" alt=""
+          /></span>
           <input class="search-input" type="search" />
         </div>
         <div class="header-row-add">
@@ -24,9 +27,13 @@
           <details class="options__item-details">
             <summary class="options__item-details-summary">Templates</summary>
             <ul class="options__item-details-list">
-              <li class="options__item-details-list-item"><input type="checkbox">Metrica 1</li>
-              <li class="options__item-details-list-item"><input type="checkbox">Metrica 2</li>
-              <li class="options__item-details-list-item"><input type="checkbox">Metrica 3</li>
+              <v-metric
+                v-for="(li, index) in ul"
+                :key="index"
+                :li="li"
+                :index="index"
+                @chooseMetric="chooseMetric"
+              ></v-metric>
             </ul>
           </details>
         </li>
@@ -52,14 +59,62 @@
   </div>
 </template>
 
+<script>
+import vMetric from "./vMetric.vue";
+export default {
+  components: {
+    vMetric,
+  },
+  data() {
+    return {
+      ul: [{ name: "Metrica 1" }, { name: "Metrica 2" }, { name: "Metrica 3" }],
+      choosenMetric: []
+    };
+  },
+  methods: {
+    chooseMetric(data) {
+      this.choosenMetric.push(data.item)
+      console.log(this.choosenMetric)
+    }
+  }
+};
+</script>
+
 <style lang="scss" scoped>
-.search-input {
-  background: #ffffff;
-  border: 1.23597px solid #ece9f1;
-  box-sizing: border-box;
-  border-radius: 9px;
+.header-row-search {
+  position: relative;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.search {
+  &-input {
+    background: #ffffff;
+    padding-left: 20px;
+    border: 1.23597px solid #ece9f1;
+    box-sizing: border-box;
+    border-radius: 9px;
+    &:-moz-placeholder {
+      color: #65737e;
+    }
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+    }
+    &::-webkit-search-results-button {
+      -webkit-appearance: none;
+    }
+  }
+  &-icon {
+    position: absolute;
+    z-index: 1;
+    margin-left: 5px;
+    margin-top: 2px;
+  }
+}
+.container {
+  height: 100%;
 }
 .container-body {
+  // height: 100%;
   .options {
     margin: 0px;
     padding-top: 13px;
@@ -68,6 +123,7 @@
       font-size: 14px;
       padding-bottom: 5px;
       list-style-type: none;
+
       &-details {
         &-summary {
           list-style-type: none;
@@ -88,20 +144,44 @@
         }
 
         &-list {
+          padding-left: 6px;
           &-item {
             color: #4f4f4f;
             list-style-type: none;
-            &:before {
-
+            &__checkbox {
+              position: absolute;
+              z-index: -1;
+              opacity: 0;
+            }
+            &__checkbox + &__label {
+              display: inline-flex;
+              align-items: center;
+              user-select: none;
+            }
+            &__checkbox + label::before {
+              content: "";
+              display: inline-block;
+              width: 1em;
+              height: 1em;
+              flex-shrink: 0;
+              flex-grow: 0;
+              border: 1px solid #adb5bd;
+              border-radius: 0.25em;
+              margin-right: 0.5em;
+              background-repeat: no-repeat;
+              background-position: center center;
+              background-size: 50% 50%;
+            }
+            &__checkbox:checked + label::before {
+              border-color: #7459d9;
+              background-color: #7459d9;
+              background-size: 80%;
+              background-image: url("../assets/checkmark.svg");
             }
           }
         }
       }
     }
   }
-}
-summary {
-  list-style-type: none;
-  content: url("../assets/open.svg");
 }
 </style>

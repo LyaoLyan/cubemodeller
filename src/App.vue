@@ -34,6 +34,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
 .modal {
   &__off {
     display: flex;
@@ -53,38 +54,39 @@ export default {
   }
 }
 .container {
-  width: 330px;
+  width: 100%;
+
   margin-left: 16px;
-  
+  display: flex;
+  flex-direction: column;
   &-header {
     width: inherit;
-    height: 50px;
+    flex-basis: 20%;
     background-color: #ffffff;
     box-sizing: border-box;
     border-radius: 13px 13px 0 0;
-    border: 1px solid #EBEBEB;
+    border: 1px solid #ebebeb;
   }
   &-body {
+    flex-grow: 1;
     background-color: #eef1fa;
-    height: 25vh;
   }
   &-footer {
     border-radius: 0 0 13px 13px;
-    height: 5vh;
+    flex-basis: 3vh;
     background: #ffffff;
-    border: 1px solid #EBEBEB;
+    border: 1px solid #ebebeb;
   }
 }
 .header {
   &-row {
     height: 100%;
-    padding: 0px 5px;
+    padding: 0px 15px 0px 20px;
     display: flex;
     padding: 0px 21px;
     justify-content: space-between;
-    // padding: 12px;
+
     align-items: center;
-    
   }
 }
 button {
@@ -93,5 +95,13 @@ button {
   padding: 0px;
   padding-top: 5px;
   margin: 0px;
+  cursor: pointer;
+}
+.delete-btn {
+  &:hover {
+    .delete-img {
+      color: red;
+    }
+  }
 }
 </style>

@@ -21,18 +21,32 @@
         </div>
       </div>
     </div>
-    <div class="container-body"></div>
+    <div class="container-body widget">
+      <v-image v-for="(image,index) in images" :key="index" :image="image"></v-image>
+    </div>
     <div class="container-footer"></div>
   </div>
 </template>
 
 <script>
+import vImage from "./vImage.vue"
 export default {
   name: "vWidget",
+  components: {
+    vImage
+  },
+  data() {
+    return {
+      images: ["18","19","20","21.png"]
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+.container {
+  height: 100%;
+}
 .right {
   display: flex;
   align-items: center;
@@ -44,4 +58,5 @@ export default {
     }
   }
 }
+
 </style>
