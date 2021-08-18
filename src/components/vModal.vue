@@ -51,17 +51,17 @@
           <v-widget @chooseChart="chooseChart"></v-widget>
         </div>
         <div class="content__select-metrics">
-          <v-metrics @chooseMetric="chooseMetric"></v-metrics>
+          <v-metrics @chooseMetric="chooseMetric" :ul="ul"></v-metrics>
         </div>
       </div>
       <div class="content__localtest">
-        <v-local-test
+        <v-local-test 
           :choosenMetric="choosenMetric"
           :choosenChart="choosenChart"
         ></v-local-test>
       </div>
     </div>
-    <v-custom></v-custom>
+    <v-custom :metrics="ul"></v-custom>
   </div>
 </template>
 
@@ -82,6 +82,11 @@ export default {
     return {
       choosenMetric: [],
       choosenChart: "",
+       ul: [
+        {0: { name: "Metrica 1" }},
+        {1: { name: "Metrica 2" }},
+        {2: { name: "Metrica 3" }},
+      ],
     };
   },
   methods: {

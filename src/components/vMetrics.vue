@@ -66,13 +66,12 @@ export default {
   },
   data() {
     return {
-      ul: [
-        {0: { name: "Metrica 1" }},
-        {1: { name: "Metrica 2" }},
-        {2: { name: "Metrica 3" }},
-      ],
+     
       choosenMetric: [],
     };
+  },
+  props: {
+    ul: Array
   },
   methods: {
     chooseMetric(data) {
