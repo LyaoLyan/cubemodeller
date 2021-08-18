@@ -10,6 +10,7 @@
                 class="header-row-btn-img"
                 src="../assets/alert-circle.svg"
                 alt=""
+               
               />
             </button>
           </div>
@@ -22,7 +23,7 @@
       </div>
     </div>
     <div class="container-body widget">
-      <v-image v-for="(image,index) in images" :key="index" :image="image"></v-image>
+      <v-image v-for="image in images" :key="image" :image="image"  @chooseChart="chooseChart"></v-image>
     </div>
     <div class="container-footer"></div>
   </div>
@@ -37,7 +38,16 @@ export default {
   },
   data() {
     return {
-      images: ["18","19","20","21.png"]
+      images: ["line", "bar", "radar", "scatter", "bubble", "Barnew"],
+      choosenChart: ""
+    }
+  },
+  methods: {
+    chooseChart(data) {
+      this.choosenChart = data.choosenChart
+      this.$emit("chooseChart", {
+        choosenChart: this.choosenChart
+      })
     }
   }
 };
@@ -46,6 +56,15 @@ export default {
 <style lang="scss" scoped>
 .container {
   height: 100%;
+}
+.widget {
+  display: flex;
+  flex-wrap:wrap;
+  flex-grow: 0;
+  height: 15vh;
+  overflow-y: scroll; /* прокрутка по вертикали */
+  scrollbar-color: #D8D8D8 #D8D8D8 0.2;
+  scrollbar-width: thin;
 }
 .right {
   display: flex;

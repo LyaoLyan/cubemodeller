@@ -48,27 +48,20 @@
     <div class="modal__content">
       <div class="content__select">
         <div class="content__select-widget">
-          <v-widget></v-widget>
+          <v-widget @chooseChart="chooseChart"></v-widget>
         </div>
         <div class="content__select-metrics">
-          <v-metrics></v-metrics>
+          <v-metrics @chooseMetric="chooseMetric"></v-metrics>
         </div>
       </div>
       <div class="content__localtest">
-        <v-local-test></v-local-test>
+        <v-local-test
+          :choosenMetric="choosenMetric"
+          :choosenChart="choosenChart"
+        ></v-local-test>
       </div>
     </div>
-    <div class="modal-footer">
-      <div class="footer__add">
-        <button class="add-btn"><img src="../assets/add.svg" alt=""></button>
-      </div>
-      <div class="footer__metrica">
-        <input class="footer__metrica-input" type="text" placeholder="Metrica" />
-      </div>
-      <div class="footer__formula">
-        <input class="footer__formula-input" type="text" placeholder="Formula" />
-      </div>
-    </div>
+    <v-custom></v-custom>
   </div>
 </template>
 
@@ -76,12 +69,28 @@
 import vWidget from "./vWidget.vue";
 import vMetrics from "./vMetrics.vue";
 import vLocalTest from "./vLocalTest.vue";
+import vCustom from "./vCustom.vue";
 export default {
   name: "vModal",
   components: {
     vWidget,
     vMetrics,
     vLocalTest,
+    vCustom,
+  },
+  data() {
+    return {
+      choosenMetric: [],
+      choosenChart: "",
+    };
+  },
+  methods: {
+    chooseMetric(data) {
+      this.choosenMetric = data.choosenMetric;
+    },
+    chooseChart(data) {
+      this.choosenChart = data.choosenChart;
+    },
   },
 };
 </script>
@@ -160,75 +169,8 @@ export default {
       }
     }
   }
-  &-footer {
-    margin-top: 10px;
-    border-radius: 0px 0px 13px 13px;
-    flex-basis: 6%;
-    background: #eef1fa;
-    display: flex;
-    border-top: 1.5px solid #dfe0eb;
-  }
 }
-.footer {
-  &__add {
-    flex-basis: 4%;
-    display: flex;
-justify-content: center;
-  }
-  &__metrica {
-    flex-basis: 50%;
-    border-right: 1.5px solid #dfe0eb;
-    border-left: 1.5px solid #dfe0eb;
-    &-input {
-      width: 100%;
-      height: 100%;
-      background: none;
-      border: none;
-      padding: 0px;
-      margin: 0px;
-      padding-left: 10px;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 2px;
 
-
-      &:focus {
-        outline: none;
-// border: #33A3FA05 1px solid;
-      }
-      &::placeholder {
-        color: #11263C;
-        opacity: 0.2;
-        // font-family: 'Inter', sans-serif;
-      }
-    }
-  }
-  &__formula {
-    flex-basis: 45%;
-    &-input {
-      width: 100%;
-      height: 100%;
-      background: none;
-      border: none;
-      padding: 0px;
-      margin: 0px;
-      padding-left: 10px;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 2px;
-
-
-      &::placeholder {
-        color: #11263C;
-        opacity: 0.2;
-        // font-family: 'Inter', sans-serif;
-      }
-      &:focus {
-        outline: none;
-
-border-radius: 0px 0px 13px 0px;
-      }
-    }
-  }
-}
 .modal__content {
   display: flex;
   height: 85%;
@@ -254,5 +196,4 @@ border-radius: 0px 0px 13px 0px;
     flex-grow: 1;
   }
 }
-
 </style>

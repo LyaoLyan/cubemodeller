@@ -1,6 +1,37 @@
 <template>
   <div class="content">
-    <div class="content-body"></div>
+    <div class="content-body">
+      <v-line-chart
+        v-if="choosenChart == 'line'"
+        :chartdata="chartdata"
+        :options="options"
+        class="chart"
+      />
+      <v-bar-chart
+        v-if="choosenChart == 'bar'"
+        :chartdata="chartdata"
+        :options="options"
+        class="chart"
+      />
+      <v-radar-chart
+        v-if="choosenChart == 'radar'"
+        :chartdata="chartdata"
+        :options="options"
+        class="chart"
+      />
+      <v-scatter-chart
+        v-if="choosenChart == 'scatter'"
+        :chartdata="chartdata"
+        :options="options"
+        class="chart"
+      />
+      <v-bubble-chart
+        v-if="choosenChart == 'bubble'"
+        :chartdata="chartdata"
+        :options="options"
+        class="chart"
+      />
+    </div>
     <div class="content-info">
       <div class="info__about">
         <div class="info__about__title">Selected Metrics</div>
@@ -20,9 +51,9 @@
         </div>
         <div class="info__table-rows">
           <v-choosen-metric
-            v-for="metric in choosenMetrics"
-            :key="metric.id"
-            :metric="metric"
+            v-for="item in choosenMetric"
+            :key="Number(Object.keys(item)[0])"
+            :item="item"
           ></v-choosen-metric>
         </div>
       </div>
@@ -32,19 +63,57 @@
 
 <script>
 import vChoosenMetric from "./vChoosenMetric.vue";
+import vLineChart from "./charts/vLineChart.vue";
+import vBarChart from "./charts/vBarChart.vue";
+import vRadarChart from "./charts/vRadarChart.vue";
+import vBubbleChart from "./charts/vBubbleChart.vue";
+import vScatterChart from "./charts/vScatterChart.vue";
 
 export default {
   components: {
     vChoosenMetric,
+    vLineChart,
+    vBarChart,
+    vRadarChart,
+    vBubbleChart,
+    vScatterChart,
   },
   data() {
     return {
-      choosenMetrics: [
-        { id: 0, name: "Metrica 1" },
-        { id: 1, name: "Metrica 2" },
-      ],
+      chartdata: {
+        labels: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+        datasets: [
+          {
+            label: "Data One",
+            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
     };
   },
+  props: {
+    choosenMetric: Array,
+    choosenChart: String,
+  },
+  mounted() {},
+  methods: {},
 };
 </script>
 
@@ -64,6 +133,9 @@ export default {
     flex-basis: 56%;
     background-color: #eef1fa;
     border-radius: 13px 13px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   &-info {
     display: flex;
@@ -109,5 +181,12 @@ export default {
       }
     }
   }
+}
+.chart {
+  height: 20vh;
+  width: 20vw;
+  background: #ffffff;
+  box-shadow: 4px 4px 25px rgba(207, 212, 255, 0.5);
+  border-radius: 9px;
 }
 </style>

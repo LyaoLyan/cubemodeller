@@ -28,10 +28,9 @@
             <summary class="options__item-details-summary">Templates</summary>
             <ul class="options__item-details-list">
               <v-metric
-                v-for="(li, index) in ul"
-                :key="index"
+                v-for="li in ul"
+                :key="Number(Object.keys(li)[0])"
                 :li="li"
-                :index="index"
                 @chooseMetric="chooseMetric"
               ></v-metric>
             </ul>
@@ -67,16 +66,29 @@ export default {
   },
   data() {
     return {
-      ul: [{ name: "Metrica 1" }, { name: "Metrica 2" }, { name: "Metrica 3" }],
-      choosenMetric: []
+      ul: [
+        {0: { name: "Metrica 1" }},
+        {1: { name: "Metrica 2" }},
+        {2: { name: "Metrica 3" }},
+      ],
+      choosenMetric: [],
     };
   },
   methods: {
     chooseMetric(data) {
-      this.choosenMetric.push(data.item)
-      console.log(this.choosenMetric)
-    }
-  }
+      if (data.push) {
+        this.choosenMetric.push(data.item);
+      } else {
+        function checkIndex(element) {
+          return Number(Object.keys(element)[0]) == data.id
+        }
+        this.choosenMetric.splice(this.choosenMetric.findIndex(checkIndex), 1)
+      }
+      console.log(this.choosenMetric);
+      this.$emit("chooseMetric", {
+        choosenMetric: this.choosenMetric})
+    },
+  },
 };
 </script>
 

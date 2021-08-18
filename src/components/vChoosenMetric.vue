@@ -13,9 +13,7 @@
         <option class="metric__statistic-option" selected value="s1">
           sum
         </option>
-        <option class="metric__statistic-option" value="s2">
-          average
-        </option>
+        <option class="metric__statistic-option" value="s2">average</option>
       </select>
     </div>
     <div class="metric__period">
@@ -35,8 +33,14 @@
 
 <script>
 export default {
+  data() {
+    return {
+      id: Number(Object.keys(this.item)[0]),
+      metric: this.item[Number(Object.keys(this.item)[0])]
+    };
+  },
   props: {
-    metric: Object,
+    item: Object,
   },
 };
 </script>
@@ -87,10 +91,10 @@ export default {
       font-family: inherit;
     }
     &:active {
-        color: #ffaa00;
+      color: #ffaa00;
     }
     &-option {
-      &:focus{
+      &:focus {
         color: #ffaa00;
       }
     }

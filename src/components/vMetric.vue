@@ -3,11 +3,12 @@
     <div class="metric__item">
       <input
         class="item__checkbox"
-        :id="'metric-' + index"
+        :id="'metric-' + id"
         type="checkbox"
-         @click="chooseMetric()"
-      /><label class="item__label" :for="'metric-' + index">{{
-        li.name
+        @click="chooseMetric()"
+        :checked="checked"
+      /><label class="item__label" :for="'metric-' + id">{{
+        metric.name
       }}</label>
     </div>
 
@@ -31,29 +32,39 @@
 export default {
   name: "vMetric",
   props: {
-    index: Number,
     li: Object,
   },
   data() {
     return {
       choosenMetric: [],
       choosen: false,
+      checked: false,
+      id: Number(Object.keys(this.li)[0]),
+      metric: this.li[Number(Object.keys(this.li)[0])],
+      
     };
   },
   methods: {
     chooseMetric() {
-    //   if (this.choosen == false) {
-    //     this.choosenMetric.push(this.li);
-    //   } else {
-    //     function checkIndex(element) {
-    //       return element.index == this.choosenMetric.index;
-    //     }
-    //     this.choosenMetric.splice(this.choosenMetric.findIndex(checkIndex), 1);
-    //     this.choosen = true;
-    //   }
-    this.$emit("chooseMetric", {
-        item: this.li
-    })
+      //   if (this.choosen == false) {
+      //     this.choosenMetric.push(this.li);
+      //   } else {
+      //     function checkIndex(element) {
+      //       return element.index == this.choosenMetric.index;
+      //     }
+      //     this.choosenMetric.splice(this.choosenMetric.findIndex(checkIndex), 1);
+      //     this.choosen = true;
+      //   }
+      if (!this.checked) {
+        this.checked = true
+      } else {
+        this.checked = false
+      }
+      this.$emit("chooseMetric", {
+          item: this.li,
+          id: this.id,
+          push: this.checked
+        });
     },
   },
 };
