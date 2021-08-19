@@ -12,7 +12,7 @@
           <span class="search-icon"
             ><img src="../assets/search.svg" alt=""
           /></span>
-          <input class="search-input" type="search" />
+          <input class="search-input" type="search" v-model="search" />
         </div>
         <div class="header-row-add">
           <button class="add-btn">
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="container-body">
+    <div v-if="!search" class="container-body">
       <ul class="options">
         <li class="options__item">
           <details class="options__item-details">
@@ -29,7 +29,7 @@
             <ul class="options__item-details-list">
               <v-metric
                 v-for="li in ul"
-                :key="Number(Object.keys(li)[0])"
+                :key="li.id"
                 :li="li"
                 @chooseMetric="chooseMetric"
               ></v-metric>
@@ -39,17 +39,54 @@
         <li class="options__item">
           <details class="options__item-details">
             <summary class="options__item-details-summary">Data pool</summary>
-            <li></li>
-            <li></li>
-            <li></li>
           </details>
         </li>
         <li class="options__item">
           <details class="options__item-details">
             <summary class="options__item-details-summary">Custom</summary>
-            <li></li>
-            <li></li>
-            <li></li>
+            <ul class="options__item-details-list">
+              <v-metric
+                v-for="li in customMetrics"
+                :key="li.id"
+                :li="li"
+                @chooseMetric="chooseCustomMetric"
+              ></v-metric>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </div>
+    <div v-else class="container-body">
+      <ul class="options">
+        <li class="options__item">
+          <details class="options__item-details">
+            <summary class="options__item-details-summary">Templates</summary>
+            <ul class="options__item-details-list">
+              <v-metric
+                v-for="li in searchUl_n"
+                :key="li.id"
+                :li="li"
+                @chooseMetric="chooseMetric"
+              ></v-metric>
+            </ul>
+          </details>
+        </li>
+        <li class="options__item">
+          <details class="options__item-details">
+            <summary class="options__item-details-summary">Data pool</summary>
+          </details>
+        </li>
+        <li class="options__item">
+          <details class="options__item-details">
+            <summary class="options__item-details-summary">Custom</summary>
+            <ul class="options__item-details-list">
+              <v-metric
+                v-for="li in searchCustomMetrics_n"
+                :key="li.id"
+                :li="li"
+                @chooseMetric="chooseCustomMetric"
+              ></v-metric>
+            </ul>
           </details>
         </li>
       </ul>
@@ -66,26 +103,64 @@ export default {
   },
   data() {
     return {
-     
+      checked: false,
       choosenMetric: [],
+      search: "",
+      searchedUl: [],
+      searchedCustomMetrics: [],
+      test: [],
     };
   },
   props: {
-    ul: Array
+    ul: Array,
+    customMetrics: Array,
   },
   methods: {
     chooseMetric(data) {
-      if (data.push) {
-        this.choosenMetric.push(data.item);
-      } else {
-        function checkIndex(element) {
-          return Number(Object.keys(element)[0]) == data.id
-        }
-        this.choosenMetric.splice(this.choosenMetric.findIndex(checkIndex), 1)
-      }
-      console.log(this.choosenMetric);
+      console.log("chooseMetric");
       this.$emit("chooseMetric", {
-        choosenMetric: this.choosenMetric})
+        id: data.id,
+        isChecked: data.isChecked,
+      });
+    },
+    chooseCustomMetric(data) {
+      console.log("chooseCustom");
+      this.$emit("chooseCustomMetric", {
+        id: data.id,
+        isChecked: data.isChecked,
+      });
+    },
+  },
+  computed: {
+    //HERE
+    searchUl_n() {
+      const serach = this.search.toLowerCase();
+      let obj = [];
+      let arr = [];
+      for (let x in this.ul) {
+        obj.push(this.ul[x].name);
+      }
+      obj.forEach((element) => {
+        if (element.toLowerCase().indexOf(serach) == 0) {
+         arr.push(element);
+        }
+      });
+      return arr;
+    },
+    searchCustomMetrics_n() {
+      const serach = this.search.toLowerCase();
+      let obj = [];
+      let arr = [];
+      for (let x in this.customMetrics) {
+        obj.push(this.customMetrics[x].name);
+      }
+      this.test = obj;
+      obj.forEach((element) => {
+        if (element.toLowerCase().indexOf(serach) == 0) {
+          arr.push(element);
+        }
+      });
+      return arr;
     },
   },
 };
@@ -125,7 +200,9 @@ export default {
   height: 100%;
 }
 .container-body {
-  // height: 100%;
+  overflow: auto;
+  height: 22vh;
+  scrollbar-width: thin;
   .options {
     margin: 0px;
     padding-top: 13px;

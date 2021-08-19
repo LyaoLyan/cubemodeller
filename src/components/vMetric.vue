@@ -2,13 +2,13 @@
   <li class="metric">
     <div class="metric__item">
       <input
-        class="item__checkbox"
-        :id="'metric-' + id"
-        type="checkbox"
         @click="chooseMetric()"
-        :checked="checked"
-      /><label class="item__label" :for="'metric-' + id">{{
-        metric.name
+        class="item__checkbox"
+        :id="'metric-' + li.id"
+        type="checkbox"
+        :checked="li.checked"
+      /><label class="item__label" :for="'metric-' + li.id">{{
+        li.name
       }}</label>
     </div>
 
@@ -36,35 +36,20 @@ export default {
   },
   data() {
     return {
-      choosenMetric: [],
-      choosen: false,
-      checked: false,
-      id: Number(Object.keys(this.li)[0]),
-      metric: this.li[Number(Object.keys(this.li)[0])],
-      
+      checked: this.li.checked,
     };
   },
   methods: {
     chooseMetric() {
-      //   if (this.choosen == false) {
-      //     this.choosenMetric.push(this.li);
-      //   } else {
-      //     function checkIndex(element) {
-      //       return element.index == this.choosenMetric.index;
-      //     }
-      //     this.choosenMetric.splice(this.choosenMetric.findIndex(checkIndex), 1);
-      //     this.choosen = true;
-      //   }
-      if (!this.checked) {
-        this.checked = true
+      if (this.li.checked) {
+        this.checked = false;
       } else {
-        this.checked = false
+        this.checked = true;
       }
       this.$emit("chooseMetric", {
-          item: this.li,
-          id: this.id,
-          push: this.checked
-        });
+        id: this.li.id,
+        isChecked: this.checked,
+      });
     },
   },
 };

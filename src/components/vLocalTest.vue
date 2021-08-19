@@ -52,8 +52,15 @@
         <div class="info__table-rows">
           <v-choosen-metric
             v-for="item in choosenMetric"
-            :key="Number(Object.keys(item)[0])"
+            :key="item.id"
             :item="item"
+            @removeFromChoosenMetric="removeFromChoosenMetric"
+          ></v-choosen-metric>
+          <v-choosen-metric
+            v-for="item in choosenCustomMetric"
+            :key="item.id"
+            :item="item"
+            @removeFromChoosenMetric="removeFromChoosenMetric"
           ></v-choosen-metric>
         </div>
       </div>
@@ -110,10 +117,17 @@ export default {
   },
   props: {
     choosenMetric: Array,
+    choosenCustomMetric: Array,
     choosenChart: String,
   },
   mounted() {},
-  methods: {},
+  methods: {
+    removeFromChoosenMetric(data) {
+      this.$emit("removeFromChoosenMetric", {
+        id: data.id
+      })
+    }
+  },
 };
 </script>
 
@@ -142,6 +156,9 @@ export default {
     flex-direction: column;
     // align-items: center;
     padding: 10px 20px;
+    overflow: auto;
+    height: 22vh;
+    scrollbar-width: thin;
   }
 }
 .info {

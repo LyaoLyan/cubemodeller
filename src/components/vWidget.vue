@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="container-body widget">
+    <div class="container-body">
       <v-image v-for="image in images" :key="image" :image="image"  @chooseChart="chooseChart"></v-image>
     </div>
     <div class="container-footer"></div>
@@ -38,7 +38,7 @@ export default {
   },
   data() {
     return {
-      images: ["line", "bar", "radar", "scatter", "bubble", "Barnew"],
+      images: ["line", "bar", "radar", "scatter", "bubble"],
       choosenChart: ""
     }
   },
@@ -56,16 +56,16 @@ export default {
 <style lang="scss" scoped>
 .container {
   height: 100%;
-}
-.widget {
-  display: flex;
+  &-body {
+display: flex;
   flex-wrap:wrap;
   flex-grow: 0;
   height: 15vh;
-  overflow-y: scroll; /* прокрутка по вертикали */
-  scrollbar-color: #D8D8D8 #D8D8D8 0.2;
+  overflow: auto;
   scrollbar-width: thin;
+  }
 }
+
 .right {
   display: flex;
   align-items: center;

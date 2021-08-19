@@ -1,11 +1,11 @@
 <template>
   <div class="metric">
-    <div class="metric__name">{{ metric.name }}</div>
+    <div class="metric__name">{{ item.name }}</div>
     <div class="metric__axis">
       <!-- <input class="metric__axis-list" type="list" list="axis" /> -->
       <select class="metric__axis-list" name="select">
-        <option class="metric__axis-option" selected value="s1">x</option>
-        <option class="metric__axis-option" value="s2">y</option>
+        <option class="metric__axis-option" selected value="a1">x</option>
+        <option class="metric__axis-option" value="a2">y</option>
       </select>
     </div>
     <div class="metric__statistic">
@@ -18,13 +18,13 @@
     </div>
     <div class="metric__period">
       <select class="metric__period-list" name="select">
-        <option selected value="s1">5 min</option>
-        <option value="s2">10 min</option>
-        <option value="s3">15 min</option>
+        <option selected value="p1">5 min</option>
+        <option value="p2">10 min</option>
+        <option value="p3">15 min</option>
       </select>
     </div>
     <div class="metric__delete">
-      <button class="delete-btn">
+      <button v-on:click="removeFromChoosenMetric()" class="delete-btn">
         <img class="delete-img" src="../assets/delete.svg" alt="" />
       </button>
     </div>
@@ -35,13 +35,20 @@
 export default {
   data() {
     return {
-      id: Number(Object.keys(this.item)[0]),
-      metric: this.item[Number(Object.keys(this.item)[0])]
+
     };
   },
   props: {
     item: Object,
   },
+  methods: {
+    removeFromChoosenMetric() {
+
+      this.$emit("removeFromChoosenMetric", {
+        id: this.item.id
+      })
+    }
+  }
 };
 </script>
 

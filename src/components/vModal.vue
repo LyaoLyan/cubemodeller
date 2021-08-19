@@ -14,7 +14,8 @@
       </div>
       <div class="modal__panel-test">
         <img class="modal__panel-test-edit" src="../assets/edit.svg" alt="" />
-        Local test
+        
+        <input class="modal__panel-test-input" type="text" v-model="name">
       </div>
       <div class="modal__panel-buttons">
         <div class="modal__panel-buttons-chat">
@@ -51,17 +52,28 @@
           <v-widget @chooseChart="chooseChart"></v-widget>
         </div>
         <div class="content__select-metrics">
-          <v-metrics @chooseMetric="chooseMetric" :ul="ul"></v-metrics>
+          <v-metrics
+            @chooseMetric="chooseMetric"
+            @chooseCustomMetric="chooseCustomMetric"
+            :ul="ul"
+            :customMetrics="customMetrics"
+          ></v-metrics>
         </div>
       </div>
       <div class="content__localtest">
-        <v-local-test 
-          :choosenMetric="choosenMetric"
+        <v-local-test
+          :choosenMetric="checkedMetric"
+          :choosenCustomMetric="checkedCustomMetric"
           :choosenChart="choosenChart"
+          @removeFromChoosenMetric="removeFromChoosenMetric"
         ></v-local-test>
       </div>
     </div>
-    <v-custom :metrics="ul"></v-custom>
+    <v-input-custom
+      :metrics="ul"
+      :lastId="ul[ul.length-1].id"
+      @addCustom="addCustom"
+    ></v-input-custom>
   </div>
 </template>
 
@@ -69,32 +81,84 @@
 import vWidget from "./vWidget.vue";
 import vMetrics from "./vMetrics.vue";
 import vLocalTest from "./vLocalTest.vue";
-import vCustom from "./vCustom.vue";
+import vInputCustom from "./vInputCustom.vue";
 export default {
   name: "vModal",
   components: {
     vWidget,
     vMetrics,
     vLocalTest,
-    vCustom,
+    vInputCustom,
   },
   data() {
     return {
-      choosenMetric: [],
       choosenChart: "",
-       ul: [
-        {0: { name: "Metrica 1" }},
-        {1: { name: "Metrica 2" }},
-        {2: { name: "Metrica 3" }},
+      ul: [
+        { id: 0, name: "Metrica 1", checked: false },
+        { id: 1, name: "Metrica 2", checked: false },
+        { id: 2, name: "Metrica 3", checked: false },
+        { id: 3, name: "Metrica 4", checked: false },
+        { id: 4, name: "Metrica 5", checked: false },
+        { id: 5, name: "Metrica 6", checked: false },
+        { id: 6, name: "Metrica 7", checked: false },
       ],
+      customMetrics: [],
+      // id здесь сделано статичным, надо бы привязать к последнему id ul
+      id: 6,
+      name: "Local Test"
     };
   },
   methods: {
+    addCustom(data) {
+      this.customMetrics.push(data.item);
+    },
     chooseMetric(data) {
-      this.choosenMetric = data.choosenMetric;
+      this.ul[data.id].checked = data.isChecked;
+    },
+    chooseCustomMetric(data) {
+      this.customMetrics[data.id-this.id-1].checked = data.isChecked;
     },
     chooseChart(data) {
       this.choosenChart = data.choosenChart;
+    },
+    removeFromChoosenMetric(data) {
+      this.ul[data.id].checked = false;
+    },
+  },
+  // created() {
+  //   if (this.customMetrics.length) {
+  //     // console.log("CUSTOMMETRIC IS NOT NULL", Number(this.customMetrics[this.customMetrics.length-1].id + 1));
+  //     this.id = Number(
+  //       this.customMetrics[this.customMetrics.length - 1].id + 2
+  //     );
+  //   } else {
+  //     this.id = Number(this.ul[this.ul.length - 1].id + 1);
+  //   }
+  // },
+  created() {
+    // this.id = ;
+  },
+  computed: {
+    
+    checkedMetric() {
+      var arr = [];
+      this.ul.forEach((element) => {
+        if (element.checked) {
+          arr.push(element);
+        }
+      });
+      console.log(arr);
+      return arr;
+    },
+    checkedCustomMetric() {
+      var arr = [];
+      this.customMetrics.forEach((element) => {
+        if (element.checked) {
+          arr.push(element);
+        }
+      });
+      console.log(arr);
+      return arr;
     },
   },
 };
@@ -135,6 +199,15 @@ export default {
       &-edit {
         margin-right: 7px;
         margin-left: 7px;
+      }
+      &-input {
+        background-color: inherit;
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #DFE0EB;
+        font-size: inherit;
+        font-family: inherit;
+        width: 5vw;
       }
     }
     &-buttons {

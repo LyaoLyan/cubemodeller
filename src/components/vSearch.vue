@@ -15,13 +15,18 @@ export default {
     item: String,
   },
   methods: {
-      searched() {
-          console.log("ddddd");
-          this.$emit("searched", {
-              choosen: true,
-              item: this.item
-          })
+    searched() {
+      let isNumber = false;
+      console.log("ddddd");
+      if (this.item == "Number") {
+        isNumber = true;
       }
-  }
+      this.$emit("searched", {
+        choosen: true,
+        item: this.item,
+        isNumber: isNumber,
+      });
+    },
+  },
 };
 </script>
