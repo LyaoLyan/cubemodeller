@@ -14,8 +14,8 @@
       </div>
       <div class="modal__panel-test">
         <img class="modal__panel-test-edit" src="../assets/edit.svg" alt="" />
-        
-        <input class="modal__panel-test-input" type="text" v-model="name">
+
+        <input class="modal__panel-test-input" type="text" v-model="name" />
       </div>
       <div class="modal__panel-buttons">
         <div class="modal__panel-buttons-chat">
@@ -55,6 +55,7 @@
           <v-metrics
             @chooseMetric="chooseMetric"
             @chooseCustomMetric="chooseCustomMetric"
+            @editNameMetric="editNameMetric"
             :ul="ul"
             :customMetrics="customMetrics"
           ></v-metrics>
@@ -71,7 +72,7 @@
     </div>
     <v-input-custom
       :metrics="ul"
-      :lastId="ul[ul.length-1].id"
+      :lastId="ul[ul.length - 1].id"
       @addCustom="addCustom"
     ></v-input-custom>
   </div>
@@ -105,10 +106,16 @@ export default {
       customMetrics: [],
       // id здесь сделано статичным, надо бы привязать к последнему id ul
       id: 6,
-      name: "Local Test"
+      name: "Local Test",
     };
   },
   methods: {
+    // editNameMetric(data) {
+    //   function checkIndex(element) {
+    //     return element.id == data.id;
+    //   }
+    //   this.ul[this.ul.findIndex(checkIndex)].name = data.name;
+    // },
     addCustom(data) {
       this.customMetrics.push(data.item);
     },
@@ -116,7 +123,7 @@ export default {
       this.ul[data.id].checked = data.isChecked;
     },
     chooseCustomMetric(data) {
-      this.customMetrics[data.id-this.id-1].checked = data.isChecked;
+      this.customMetrics[data.id - this.id - 1].checked = data.isChecked;
     },
     chooseChart(data) {
       this.choosenChart = data.choosenChart;
@@ -139,7 +146,6 @@ export default {
     // this.id = ;
   },
   computed: {
-    
     checkedMetric() {
       var arr = [];
       this.ul.forEach((element) => {
@@ -204,7 +210,7 @@ export default {
         background-color: inherit;
         outline: none;
         border: none;
-        border-bottom: 1px solid #DFE0EB;
+        border-bottom: 1px solid #dfe0eb;
         font-size: inherit;
         font-family: inherit;
         width: 5vw;

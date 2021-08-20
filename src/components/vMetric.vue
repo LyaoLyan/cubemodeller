@@ -7,14 +7,14 @@
         :id="'metric-' + li.id"
         type="checkbox"
         :checked="li.checked"
-      /><label class="item__label" :for="'metric-' + li.id">{{
-        li.name
-      }}</label>
+      /><label class="item__label" :for="'metric-' + li.id"
+        ><input class="item__label-input" type="text" v-model="name" :disabled="isDisable" />
+      </label>
     </div>
 
     <div class="metric__buttons">
       <div class="metric__buttons-edit">
-        <button class="edit-btn">
+        <button @click="editNameMetric" class="edit-btn">
           <img src="../assets/edit.svg" alt="" />
         </button>
       </div>
@@ -37,9 +37,18 @@ export default {
   data() {
     return {
       checked: this.li.checked,
+      isDisable: true,
+      name: this.li.name
     };
   },
   methods: {
+    // editNameMetric() {
+    //   this.isDisable = !this.isDisable
+    //   this.$emit("editNameMetric", {
+    //     id: this.id,
+    //     name: this.name
+    //   })
+    // },
     chooseMetric() {
       if (this.li.checked) {
         this.checked = false;
@@ -68,6 +77,7 @@ export default {
     user-select: none;
   }
   &__checkbox + label::before {
+    
     content: "";
     display: inline-block;
     width: 1em;
@@ -86,6 +96,16 @@ export default {
     background-color: #7459d9;
     background-size: 80%;
     background-image: url("../assets/checkmark.svg");
+  }
+  &__label {
+    &-input:disabled {
+      border: none;
+      width: 100%;
+      outline: none;
+      background-color: inherit;
+      font-family: inherit;
+      color: inherit;
+    }
   }
 }
 .metric {

@@ -58,8 +58,8 @@
     </div>
     <div v-else class="container-body">
       <ul class="options">
-        <li class="options__item">
-          <details class="options__item-details">
+        <li v-if="searchUl_n.length != 0" class="options__item">
+          <details class="options__item-details" open>
             <summary class="options__item-details-summary">Templates</summary>
             <ul class="options__item-details-list">
               <v-metric
@@ -76,8 +76,8 @@
             <summary class="options__item-details-summary">Data pool</summary>
           </details>
         </li>
-        <li class="options__item">
-          <details class="options__item-details">
+        <li v-if="searchCustomMetrics_n.length != 0" class="options__item">
+          <details class="options__item-details" open>
             <summary class="options__item-details-summary">Custom</summary>
             <ul class="options__item-details-list">
               <v-metric
@@ -85,6 +85,7 @@
                 :key="li.id"
                 :li="li"
                 @chooseMetric="chooseCustomMetric"
+                @editNameMetric="editNameMetric"
               ></v-metric>
             </ul>
           </details>
@@ -116,6 +117,12 @@ export default {
     customMetrics: Array,
   },
   methods: {
+    // editNameMetric(data) {
+    //   this.$emit("editNameMetric", {
+    //     id: data.id,
+    //     name: data.name,
+    //   });
+    // },
     chooseMetric(data) {
       console.log("chooseMetric");
       this.$emit("chooseMetric", {
@@ -140,9 +147,9 @@ export default {
       for (let x in this.ul) {
         obj.push(this.ul[x].name);
       }
-      obj.forEach((element) => {
-        if (element.toLowerCase().indexOf(serach) == 0) {
-         arr.push(element);
+      this.ul.forEach((element) => {
+        if (element.name.toLowerCase().indexOf(serach) == 0) {
+          arr.push(element);
         }
       });
       return arr;
@@ -155,8 +162,8 @@ export default {
         obj.push(this.customMetrics[x].name);
       }
       this.test = obj;
-      obj.forEach((element) => {
-        if (element.toLowerCase().indexOf(serach) == 0) {
+      this.customMetrics.forEach((element) => {
+        if (element.name.toLowerCase().indexOf(serach) == 0) {
           arr.push(element);
         }
       });
